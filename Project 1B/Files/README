@@ -1,0 +1,24 @@
+NAME: Jordan Combitsis
+EMAIL: jcombitsis17@gmail.com
+ID: 004921527
+
+Submission File: lab1b-004921527.tar.gz
+
+Tarball Contents:
+
+lab1b-server.c: C source code file that corresponds to the server. Reads and processes inputs/commands from client.
+--port=[PORT#] option specifies a port in which the server will run.
+--shell=[PROGRAM] option specifies a PROGRAM to be executed in a shell (e.g. /bin/bash).
+--compress option uses zlib library for basic compression and decompression.
+
+lab1b-client.c: C source code file that corresponds to the client. Connects to the server and passes inputs/commands to it.
+--port=[PORT#] option specifies a port in which the client will run.
+--log=[FILENAME] option specifies a text file to which program info will be written (e.g. # of bytes sent/received, messages sent/received).
+--compress option uses zlib library for basic compression and decompression.
+
+Makefile: contains the 3 targets described below.
+default - builds lab1b-server and lab1b-client executables, with options -g -Wall -Wextra -lz.
+clean - deletes any/all files created by the Makefile (includes tarball, executables).
+dist - builds the distribution tarball for assignment submission.
+
+README: this file

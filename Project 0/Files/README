@@ -1,0 +1,31 @@
+NAME: Jordan Combitsis
+EMAIL: jcombitsis17@gmail.com
+ID: 004921527
+
+Submission File: lab0-004921527.tar.gz
+
+Tarball Contents:
+
+lab0.c: C source code file that copies from standard input to standard output.
+--input=[FILE] option specifies a file to use as stdin.
+--output=[FILE] option specifies a file to use as stdout.
+--segfault option forces a segmentation fault.
+--catch option creates a signal handler for SIGSEGV to catch a possible segmentation fault.
+
+Makefile: contains the 4 targets described below.
+default - builds lab0 executable, with options -g -Wall -Wextra.
+check - runs a smoke test on the lab0 executable (more below).
+clean - deletes any/all files created by the Makefile (includes tarball, executable, text files).
+dist - builds the distribution tarball for assignment submission.
+
+check.sh: shell script called by the Makefile (make check) to run the smoke test on lab0 executable. Below are the checks run.
+1. Check for successful run (exit code 0) of copying from input file to output file.
+2. Check for exit code 1 upon reading an unsupported command line option.
+3. Check for exit code 2 upon inability to open the specified input file.
+4. Check for exit code 3 upon inability to open/write to the specified output file.
+5. Check for exit code 4 upon successfully catching a segmentation fault.
+6. Check for exit code 139 (default for a segfault) upon successfully forcing a segmentation fault (no catch option).
+
+backtrace.png: screenshot from gdb session featuring a forced segmentation fault.
+
+breakpoint.png: screenshot from gdb session showing proof of the NULL pointer that causes the forced segfault.

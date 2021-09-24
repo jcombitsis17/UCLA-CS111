@@ -1,0 +1,98 @@
+NAME: Jordan Combitsis
+EMAIL: jcombitsis17@gmail.com
+ID: 004921527
+
+Submission File: lab2a-004921527.tar.gz
+
+Tarball Contents:
+
+lab2_add.c: C source file for multithreaded add function.
+lab2_list.c: C source file for multithreaded linked-list functions.
+SortedList.h: provided C header file for SortedList class.
+SortedList.c: C source file containing required functions for SortedList class: insert(), delete(), length(), lookup().
+
+tests.sh: shell script containing all test cases for both lab2_add and lab2_list executables.
+
+lab2_add.csv: CSV file, written to by tests.sh, for use in generating required lab2_add plots.
+lab2_list.csv: CSV file, written to by tests.sh, for use in generating required lab2_list plots.
+
+lab2_add-1.png: plot - threads and iterations required to generate a failure (with and without yields)
+lab2_add-2.png: plot - average time per operation with and without yields.
+lab2_add-3.png: plot - average time per (single threaded) operation vs. the number of iterations.
+lab2_add-4.png: plot - threads and iterations that can run successfully with yields under each of the synchronization options.
+lab2_add-5.png: plot - average time per (protected) operation vs. the number of threads.
+lab2_list-1.png: plot - average time per (single threaded) unprotected operation vs. number of iterations (illustrating the correction of the per-operation cost for the list length).
+lab2_list-2.png: plot - threads and iterations required to generate a failure (with and without yields).
+lab2_list-3.png: plot - iterations that can run (protected) without failure.
+lab2_list-4.png: plot - (length-adjusted) cost per operation vs the number of threads for the various synchronization options.
+
+lab2_add.gp: provided plot generation script for lab2_add.
+lab2_list.gp: provided plot generation script for lab2_list.
+
+Makefile: contains the 6 targets described below.
+default - compiles the required executables lab2_add and lab2_list, using the options -g -pthread -Wall -Wextra.
+build - runs the default target.
+tests - runs the tests.sh script to execute all test cases.
+graphs - runs the provided *.gp scripts to generate required plots.
+clean - deletes any/all files created by the Makefile (includes both executables).
+dist - builds the distribution tarball for assignment submission.
+
+README: this file
+
+
+QUESTION 2.1.1 - causing conflicts:
+    Errors are more likely to be seen with many iterations, because due to the increased number of iterations, and hence
+    increased runtime for each thread, race conditions become more likely to occur, for example if a thread does not 
+    complete its task(s) before the end of a certain time slice. Smaller numbers of iterations will result in a 
+    smaller chance of multiple threads trying to access (and change) the same data.
+
+    Likewise, small numbers of iterations are less likely to fail because it is more likely that the given threads 
+    will be able to complete their task(s) on time and prevent the overlapping case where they access the same data at 
+    the same time.
+
+QUESTION 2.1.2 - cost of yielding:
+    Runs with --yield option are much slower because the sched_yield() function takes time to run in addition to the 
+    threads' operations.
+
+    This additional time is being spent in the sched_yield() function to relinquish the CPU and allow a different thread 
+    to run.
+
+    It is not likely to be possible to get valid per-operation timings while using the --yield option, since we don't 
+    know how to account for the amount of time it takes to switch between threads (this adds to per-operation time).
+
+QUESTION 2.1.3 - measurement errors:
+    With increasing iterations, the average cost per operation drops because iterations complete much faster than
+    the process of creating a thread, so more iterations per thread would make up for the longer time needed to create
+    each thread.
+
+    As seen in lab2_add-3.png, the cost per iteration decreases at either a constant or exponential rate (a bit difficult
+    to tell which, using my specific plot). In either case (but especially for exponential), the "correct" cost can be 
+    found by observing when this plot becomes stable. For the constant case, we can simply keep increasing iterations
+    until an obvious minimum cost is found.
+
+QUESTION 2.1.4 - costs of serialization:
+    All options perform similarly for low amounts of threads because with fewer threads, there is a lower chance of a 
+    given thread running into a lock mechanism (the objects preventing race conditions).
+
+    As the number of threads increases, the protected operations slow down because they force threads to wait if they are
+    locked out of an operation, which adds additional time to the total for each thread that has to wait for a lock to be
+    released.
+
+QUESTION 2.2.1 - scalability of Mutex
+    Time per mutex-protected operation increased with number of threads in Part-1, but Part-2 showed a relatively flat curve,
+    denoting little to no time increase as threads increased. In fact, Part-2's plot may even show a decrease in time per
+    operation.
+
+    Since the linked-list operations in Part-2 take much more time in general than the operation in Part-1 (a simple 
+    add 1 or subtract 1), the mutex must remain locked for a longer amount of time, and thus the time needed for 
+    these linked-list operations dominate the time needed for any switches between threads. This allows for the shown 
+    result, where Part-2's plot shows very little effect by threads on operation time.
+
+QUESTION 2.2.2 - scalability of spin locks
+    Spin locks show similar general behavior to the mutex locks, in which in Part-1 time and threads both increase, while
+    in Part-2 time remains relatively constant. The reasoning for this difference between parts 1 and 2 can be the same as
+    above in question 2.2.1.
+    
+    However, in Part-1 spin locks show a much greater increase in cost per operation. This is because while mutexes simply 
+    force a thread to wait until the lock is unlocked, a spin lock uses "busy waiting", in which it continuously checks 
+    if the lock has been unlocked yet. This inefficiently wastes part of the CPU, adding time to the cost per operation.

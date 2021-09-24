@@ -1,0 +1,84 @@
+NAME: Jordan Combitsis
+EMAIL: jcombitsis17@gmail.com
+ID: 004921527
+
+Submission File: lab2b-004921527.tar.gz
+
+Tarball Contents:
+
+lab2_list.c: C source file for multithreaded partitioned linked-list functions.
+SortedList.h: provided C header file for SortedList class.
+SortedList.c: C source file containing required functions for SortedList class: insert(), delete(), length(), lookup().
+
+tests.sh: shell script containing all test cases for lab2_list executable.
+
+lab2b_list.csv: CSV file, written to by tests.sh, for use in generating required lab2_list plots.
+
+lab2_list-1.png: plot - throughput vs. number of threads for mutex and spin-lock synchronized list operations.
+lab2_list-2.png: plot - mean time per mutex wait and mean time per operation for mutex-synchronized list operations.
+lab2_list-3.png: plot - successful iterations vs. threads for each synchronization method.
+lab2_list-4.png: plot - throughput vs. number of threads for mutex synchronized partitioned lists.
+lab2_list-5.png: plot - throughput vs. number of threads for spin-lock-synchronized partitioned lists.
+
+lab2b_list.gp: plot generation script for lab2_list (based on lab2_list.gp from Project 2A).
+
+Makefile: contains the 6 targets described below.
+default - compiles the required executable lab2_list, using the options -g -pthread -lprofiler -Wall -Wextra.
+tests - runs the tests.sh script to execute all test cases.
+profile - generates the required profile.out file using pprof command.
+graphs - runs the lab2b_list.gp script to generate required plots.
+clean - deletes any/all files created by the Makefile (includes lab2_list executable).
+dist - builds the distribution tarball for assignment submission.
+
+README: this file
+
+
+QUESTION 2.3.1 - CPU time in the basic list implementation:
+    During the 1 and 2-thread list tests, most CPU time is likely spent on the SortedList operations rather than switching
+    threads and/or waiting for locks
+    
+    The SortedList operations are the most expensive parts of the code in this case since the amount of list operations 
+    vastly outnumbers that of the threads/locks due to the small number of threads. Additionally, since the functions for
+    lock waiting are builtin, they are likely optimized in one way or another, making them more efficient than our linked-
+    list functions.
+
+    In high-thread spin-lock tests, most of the CPU time is spent "spinning" as the threads must continuously check if a 
+    given lock is unlocked during wait times.
+
+    In high-thread mutex tests, most of the CPU time is spent using the mutex-related functions, simply due to the high
+    amount of calls to these functions since there are a high number of threads.
+
+QUESTION 2.3.2 - Execution Profiling:
+    For a large number of threads, spin-lock versions of the list code will consume the most CPU time with the line: 
+        while (__sync_lock_test_and_set(&s_lock[pos], 1));
+    
+    This single line of code becomes so expensive because as the number of threads increases, it means more threads are 
+    competing to use the same lock. Since only one thread can access the lock at a time, the remaining n_threads-1 threads
+    are all left "spinning" and waiting for the lock to be released, wasting n_threads-1 times as many CPU cycles as if the
+    program were running with only 1-2 threads.
+
+QUESTION 2.3.3 - Mutex Wait Time:
+    The average lock-wait time rises dramatically because more total threads means more threads are stuck waiting for the 
+    lock to release. Since so many threads are left waiting at the same time, this adds a lot of time to the total wait time.
+
+    The completion time per operation rises less dramatically because while the number of threads may be increasing, there 
+    will always be one thread making use of the resources, so the additional completion time comes from an increase in 
+    threads moreso than an increase in operations.
+
+    Building off of what was said above, the wait time per operation may increase faster than the completion time per 
+    operation because these two values are independent of each other. The number of threads does not necessarily affect 
+    the speed of an operation quite as directly, whereas for wait time, no matter the amount of threads running, only one 
+    can be using the locked resources, so lock wait time will surely increase when there are large numbers of threads.
+
+QUESTION 2.3.4 - Performance of Partitioned Lists:
+    For the synchronized methods, performance seems to improve as number of lists increases. This is evident by the increase 
+    in throughput for each increase in amount of lists.
+
+    As the number of lists is further increased, the throughput should also continue to increase, until we reach a certain 
+    point. This limit can be defined as the point when each sublist contains only one element. This would mean that the 
+    number of lists now does not matter; if we add any more lists, they will end up being empty, and we will have reached 
+    the limit of when the performance bottleneck goes back to being due to threads waiting for the same locked resource.
+
+    Based on the curves, the suggestion that the throughput of an N-way partitioned list is equivalent to that of a single 
+    list with (1/N) threads seems reasonable. It should remain reasonable in most cases, except perhaps if the sublists 
+    were not evenly distributed as far as number of elements; this could prove a possibility for changing the curves.

@@ -1,0 +1,17 @@
+NAME: Jordan Combitsis, Anchal Sinha
+EMAIL: jcombitsis17@gmail.com, anchalsinha@ucla.edu
+ID: 004921527, 204986787
+
+Submission File: lab3b-004921527.tar.gz
+
+Tarball Contents:
+
+lab3b.py: Python file to analyze a file system summary from a given .csv file.
+
+Makefile: contains the 4 targets described below.
+default - creates the required executable lab3b.
+build - copies python file to executable lab3b (same as default).
+clean - deletes any/all files created by the Makefile (includes lab3b executable and tarball).
+dist - builds the distribution tarball for assignment submission.
+
+README: this file

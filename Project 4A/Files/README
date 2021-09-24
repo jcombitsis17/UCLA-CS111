@@ -1,0 +1,24 @@
+NAME: Jordan Combitsis
+EMAIL: jcombitsis17@gmail.com
+ID: 004921527
+
+Submission File: lab4a-004921527.tar.gz
+
+Tarball Contents:
+
+my_beaglebone.jpg: selfie of me holding my beaglebone device
+
+connected.png: terminal screenshot showing the beaglebone's name and ifconfig output
+
+copy.png: screenshot from FileZilla showing successful copying of hello.c from local desktop to beaglebone.
+
+build_run.png: terminal screenshot of successfully compiling and running hello.c after copying from local desktop.
+
+git.png: terminal screenshot showing successful install of git and use of git clone on beaglebone.
+
+Makefile: contains the 3 targets described below.
+default - runs dist target.
+clean - deletes any/all files created by the Makefile (for this project, only the tarball).
+dist - builds the distribution tarball for assignment submission.
+
+README: this file

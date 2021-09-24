@@ -1,0 +1,18 @@
+NAME: Jordan Combitsis
+EMAIL: jcombitsis17@gmail.com
+ID: 004921527
+
+Submission File: lab1a-004921527.tar.gz
+
+Tarball Contents:
+
+lab1a.c: C source code file that puts the keyboard into character-at-a-time, no-echo mode.
+--shell=[PROGRAM] option specifies a PROGRAM to be executed in a shell (e.g. /bin/bash).
+Input/Output will be passed between the terminal and this shell.
+
+Makefile: contains the 3 targets described below.
+default - builds lab1a executable, with options -g -Wall -Wextra.
+clean - deletes any/all files created by the Makefile (includes tarball, executable).
+dist - builds the distribution tarball for assignment submission.
+
+README: this file
