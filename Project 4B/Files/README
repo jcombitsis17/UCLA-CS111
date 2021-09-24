@@ -1,0 +1,19 @@
+NAME: Jordan Combitsis
+EMAIL: jcombitsis17@gmail.com
+ID: 004921527
+
+Submission File: lab4b-004921527.tar.gz
+
+Tarball Contents:
+
+lab4b.c: C source file for simple temperature sensor and button functions via BeagleBone connection.
+
+tests.sh: shell script to run smoke check on application.
+
+Makefile: contains the 4 targets described below.
+default - compiles the required executable lab4b, using the options -g -Wall -Wextra -lm -lmraa.
+check - runs a smoke check to see if the application runs correctly for basic operations.
+clean - deletes any/all files created by the Makefile (includes lab4b executable and tarball).
+dist - builds the distribution tarball for assignment submission.
+
+README: this file

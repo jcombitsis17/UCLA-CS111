@@ -1,0 +1,17 @@
+NAME: Jordan Combitsis
+EMAIL: jcombitsis17@gmail.com
+ID: 004921527
+
+Submission File: lab4c-004921527.tar.gz
+
+Tarball Contents:
+
+lab4c_tcp.c: C source file for simple temperature sensor functions via TCP connection.
+lab4c_tls.c: C source file for simple temperature sensor functions via TLS connection.
+
+Makefile: contains the 4 targets described below.
+default - compiles the required executables lab4c_tcp and lab4c_tls, using the options -g -Wall -Wextra -lm -lmraa (also -lssl -lcrypto for lab4c_tls).
+clean - deletes any/all files created by the Makefile (includes both executables, and tarball).
+dist - builds the distribution tarball for assignment submission.
+
+README: this file
